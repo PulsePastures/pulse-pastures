@@ -411,7 +411,7 @@ export default function FarmPage() {
       <div className="bg-[#fefce8] backdrop-blur-2xl border-b-2 border-[#4A2F1D] py-4 px-8 flex justify-between items-center text-[10px] uppercase tracking-[0.2em] text-gray-800 font-bold z-[100] sticky top-0 shadow-2xl">
         <div className="flex gap-10">
           <span className="flex items-center gap-2 text-[#2b1b10] border-l-2 border-[#4A2F1D] pl-4"><Pickaxe size={14} /> SLOTS: {Math.min(onChainCount + finalPendingArray.length, finalDisplayMax)} / {finalDisplayMax}</span>
-          <span className="hidden md:flex items-center gap-2 text-green-700 border-l-2 border-[#4A2F1D] pl-4 uppercase tracking-[0.3em]"><Database size={11} className="mr-1" /> TREASURY LIQ: {Number(treasuryBalance?.formatted || 0).toFixed(2)} STT</span>
+          <span className="hidden md:flex items-center gap-2 text-green-700 border-l-2 border-[#4A2F1D] pl-4 uppercase tracking-[0.3em]"><Database size={11} className="mr-1" /> TREASURY: {Number(treasuryBalance?.formatted || 0).toFixed(2)} STT (0xc06f...3563)</span>
         </div>
         <div className="flex gap-6 items-center">
           <button 
