@@ -1,0 +1,16 @@
+{
+  "name": "somnia-farm-contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts for PulsePastures",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.5"
+  }
+}
