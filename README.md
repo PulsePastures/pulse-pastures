@@ -45,4 +45,4 @@ A secure, wallet-locked management console for the project operator:
 3.  **Harvest**: Collect your yields (Eggs, Meat, Milk, etc.) regularly.
 4.  **Liquidate**: Visit the **Merchant Terminal** to sell your products back to the treasury for STT token rewards.
 
-*Developed with ❤️ for the Synthesis Hackathon* 🚜💎✨🤝💰🚀📈🏛️🔐✅
+*Developed with for the all
