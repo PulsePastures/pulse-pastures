@@ -583,15 +583,15 @@ export default function FarmPage() {
                     <div className="bg-green-900/5 border-8 border-[#4A2F1D] p-12 flex items-center justify-between shadow-[15px_15px_0_0_rgba(101,67,33,1)] border-double relative overflow-hidden">
                         <div className="absolute inset-0 bg-green-500/5 animate-pulse" />
                         <div className="flex items-center gap-10 relative z-10">
-                            <ShoppingCart size={80} className="text-green-500 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)]" />
+                            <ShoppingCart size={80} className="text-green-800 drop-shadow-[0_0_15px_rgba(21,128,61,0.4)]" />
                             <div>
                                 <h2 className="text-5xl font-black uppercase italic tracking-tighter text-[#2b1b10]">TRADING STATION</h2>
-                                <p className="text-sm text-green-400 font-bold uppercase tracking-[0.6em] mt-3 italic opacity-70">Convert Agricultural Yield into STT Tokens</p>
+                                <p className="text-sm text-green-900 font-black uppercase tracking-[0.6em] mt-3 italic opacity-90">Convert Agricultural Yield into STT Tokens</p>
                             </div>
                         </div>
                         <div className="text-right hidden xl:block relative z-10">
-                            <div className="text-[10px] text-gray-600 uppercase font-black mb-3 tracking-[0.3em]">VALUATION INDEX</div>
-                            <div className="text-green-500 font-black italic tracking-tighter text-6xl drop-shadow-[0_0_20px_rgba(34,197,94,0.5)]">BULLISH ▲</div>
+                            <div className="text-[10px] text-gray-800 uppercase font-black mb-3 tracking-[0.3em]">VALUATION INDEX</div>
+                            <div className="text-green-800 font-black italic tracking-tighter text-6xl drop-shadow-[0_0_20px_rgba(21,128,61,0.5)]">BULLISH ▲</div>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20">
