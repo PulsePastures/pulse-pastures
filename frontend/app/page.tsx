@@ -768,11 +768,10 @@ function LoadingSlot({ i }: any) {
 function StoreItem({ type, userAddress, onHover, onBuySuccess }: { type: number, userAddress: string | undefined, onHover: () => void, onBuySuccess?: () => void }) {
     const { isConnected } = useAccount();
     const meta = ANIMAL_META[type];
-    const { data: balanceRaw } = useReadContract({
-        address: STT_ADDRESS as `0x${string}`,
-        abi: STT_ABI,
-        functionName: 'balanceOf',
-        args: userAddress ? [userAddress as `0x${string}`] : undefined,
+    
+    // Use useBalance for native STT instead of ERC20 STT
+    const { data: sttBalance } = useBalance({ 
+        address: userAddress as `0x${string}`,
         query: { enabled: !!userAddress, refetchInterval: 5000 }
     });
     
@@ -787,6 +786,7 @@ function StoreItem({ type, userAddress, onHover, onBuySuccess }: { type: number,
             abi: FARM_ENGINE_ABI,
             functionName: 'buyAnimal',
             args: [type],
+            value: parseEther(meta.price.toString()),
         });
     };
 
@@ -794,7 +794,7 @@ function StoreItem({ type, userAddress, onHover, onBuySuccess }: { type: number,
         if (isSuccess) onBuySuccess?.();
     }, [isSuccess, onBuySuccess]);
 
-    const hasEnough = balanceRaw ? BigInt(balanceRaw as any) >= BigInt(meta.price) * BigInt(10**18) : false;
+    const hasEnough = sttBalance ? BigInt(sttBalance.value) >= parseEther(meta.price.toString()) : false;
     const disabled = !isConnected || isPending || !hasEnough;
 
     return (
