@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Smart contracts for PulsePastures",
   "scripts": {
-    "dev": "npm --prefix frontend run dev"
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix frontend run start"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
