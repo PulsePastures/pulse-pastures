@@ -3,7 +3,6 @@ pragma solidity ^0.8.19;
 
 import "./FarmNFT.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-
 contract FarmEngine is Ownable {
     FarmNFT public farmNft;
     address public treasury = 0x17A4cFbF526A12324CE6300eD4862A78FE679676;
@@ -30,13 +29,13 @@ contract FarmEngine is Ownable {
     constructor(address _farmNft) Ownable() {
         farmNft = FarmNFT(_farmNft);
 
-        // Protocol v2.0 ROI Payouts (0.5 - 8.0 STT)
-        products[FarmNFT.AnimalType.CHICKEN] = Product("Egg", 0.5 ether);
-        products[FarmNFT.AnimalType.SHEEP] = Product("Meat", 1.5 ether);
-        products[FarmNFT.AnimalType.COW] = Product("Milk", 2.5 ether);
-        products[FarmNFT.AnimalType.GOAT] = Product("Cheese", 4.5 ether);
-        products[FarmNFT.AnimalType.PIG] = Product("Bacon", 6.5 ether);
-        products[FarmNFT.AnimalType.BEE] = Product("Honey", 8.0 ether);
+        // Protocol v2.0 ROI Payouts (0.5 - 8.0 STT) - REDUCED BY 80%
+        products[FarmNFT.AnimalType.CHICKEN] = Product("Egg", 0.1 ether);
+        products[FarmNFT.AnimalType.SHEEP] = Product("Meat", 0.3 ether);
+        products[FarmNFT.AnimalType.COW] = Product("Milk", 0.5 ether);
+        products[FarmNFT.AnimalType.GOAT] = Product("Cheese", 0.9 ether);
+        products[FarmNFT.AnimalType.PIG] = Product("Bacon", 1.3 ether);
+        products[FarmNFT.AnimalType.BEE] = Product("Honey", 1.6 ether);
     }
 
     function buyAnimal(FarmNFT.AnimalType _type) public payable {
@@ -46,12 +45,12 @@ contract FarmEngine is Ownable {
         uint256 price = 0;
         uint256 rate = 0;
 
-        if (_type == FarmNFT.AnimalType.CHICKEN) { price = 5 ether; rate = 3600; }
-        else if (_type == FarmNFT.AnimalType.SHEEP) { price = 15 ether; rate = 10800; }
-        else if (_type == FarmNFT.AnimalType.COW) { price = 25 ether; rate = 18000; }
-        else if (_type == FarmNFT.AnimalType.GOAT) { price = 45 ether; rate = 32400; }
-        else if (_type == FarmNFT.AnimalType.PIG) { price = 65 ether; rate = 46800; }
-        else if (_type == FarmNFT.AnimalType.BEE) { price = 80 ether; rate = 57600; }
+        if (_type == FarmNFT.AnimalType.CHICKEN) { price = 1 ether; rate = 3600; }
+        else if (_type == FarmNFT.AnimalType.SHEEP) { price = 3 ether; rate = 10800; }
+        else if (_type == FarmNFT.AnimalType.COW) { price = 5 ether; rate = 18000; }
+        else if (_type == FarmNFT.AnimalType.GOAT) { price = 9 ether; rate = 32400; }
+        else if (_type == FarmNFT.AnimalType.PIG) { price = 13 ether; rate = 46800; }
+        else if (_type == FarmNFT.AnimalType.BEE) { price = 16 ether; rate = 57600; }
 
         require(msg.value >= price, "Insufficient STT sent for this tier");
 
@@ -91,12 +90,12 @@ contract FarmEngine is Ownable {
         require(animal.level < 10, "Maximum level reached");
 
         uint256 upgradePrice = 0;
-        if (animal.animalType == FarmNFT.AnimalType.CHICKEN) upgradePrice = 1 ether;
-        else if (animal.animalType == FarmNFT.AnimalType.SHEEP) upgradePrice = 3 ether;
-        else if (animal.animalType == FarmNFT.AnimalType.COW) upgradePrice = 5 ether;
-        else if (animal.animalType == FarmNFT.AnimalType.GOAT) upgradePrice = 9 ether;
-        else if (animal.animalType == FarmNFT.AnimalType.PIG) upgradePrice = 13 ether;
-        else if (animal.animalType == FarmNFT.AnimalType.BEE) upgradePrice = 16 ether;
+        if (animal.animalType == FarmNFT.AnimalType.CHICKEN) upgradePrice = 0.2 ether;
+        else if (animal.animalType == FarmNFT.AnimalType.SHEEP) upgradePrice = 0.6 ether;
+        else if (animal.animalType == FarmNFT.AnimalType.COW) upgradePrice = 1 ether;
+        else if (animal.animalType == FarmNFT.AnimalType.GOAT) upgradePrice = 1.8 ether;
+        else if (animal.animalType == FarmNFT.AnimalType.PIG) upgradePrice = 2.6 ether;
+        else if (animal.animalType == FarmNFT.AnimalType.BEE) upgradePrice = 3.2 ether;
 
         require(msg.value == upgradePrice, "Incorrect upgrade fee");
 

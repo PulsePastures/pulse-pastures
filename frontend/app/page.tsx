@@ -8,8 +8,8 @@ import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadCont
 import { parseEther } from 'viem';
 
 // --- CONTRACT ADDRESSES ---
-const FARM_ENGINE_ADDRESS = '0xD313Cc9526A966131ecaa9a7A70B648542ac2D96'; 
-const FARM_NFT_ADDRESS = '0x9f6f2157b00B006268e68536AC5D8C7B7398f8C9';
+const FARM_ENGINE_ADDRESS = '0x28cFD2cA01cfF04260f63AD14E104e794E85964d'; 
+const FARM_NFT_ADDRESS = '0x21d81CE4A631e5c5C619644e2bd4c4cEF85f956f';
 const STT_ADDRESS = '0x8544465B620436dF3029D8eB7330335AeB1f787E';
 
 // --- ABIs ---
@@ -36,21 +36,21 @@ const FARM_NFT_ABI = [
 ] as const;
 
 const ANIMAL_META: Record<number, { emoji: string; name: string; yield: string; prod: string; price: number; time: string; upgradePrice: number }> = {
-  0: { emoji: "🐔", name: "CHICKEN", yield: "LOW", prod: "EGGS", price: 5, time: "1h", upgradePrice: 1 },
-  1: { emoji: "🐑", name: "SHEEP", yield: "MEDIUM", prod: "MEAT", price: 15, time: "3h", upgradePrice: 3 },
-  2: { emoji: "🐄", name: "COW", yield: "HIGH", prod: "MILK", price: 25, time: "5h", upgradePrice: 5 },
-  3: { emoji: "🐐", name: "GOAT", yield: "MEDIUM", prod: "CHEESE", price: 45, time: "9h", upgradePrice: 9 },
-  4: { emoji: "🐷", name: "PIG", yield: "HIGH", prod: "BACON", price: 65, time: "13h", upgradePrice: 13 },
-  5: { emoji: "🐝", name: "BEE", yield: "LOW", prod: "HONEY", price: 80, time: "16h", upgradePrice: 16 },
+  0: { emoji: "🐔", name: "CHICKEN", yield: "LOW", prod: "EGGS", price: 1, time: "1h", upgradePrice: 0.2 },
+  1: { emoji: "🐑", name: "SHEEP", yield: "MEDIUM", prod: "MEAT", price: 3, time: "3h", upgradePrice: 0.6 },
+  2: { emoji: "🐄", name: "COW", yield: "HIGH", prod: "MILK", price: 5, time: "5h", upgradePrice: 1 },
+  3: { emoji: "🐐", name: "GOAT", yield: "MEDIUM", prod: "CHEESE", price: 9, time: "9h", upgradePrice: 1.8 },
+  4: { emoji: "🐷", name: "PIG", yield: "HIGH", prod: "BACON", price: 13, time: "13h", upgradePrice: 2.6 },
+  5: { emoji: "🐝", name: "BEE", yield: "LOW", prod: "HONEY", price: 16, time: "16h", upgradePrice: 3.2 },
 };
 
 const PRODUCT_META = [
-  { type: 0, name: 'FRESH EGGS', emoji: '🥚', price: 0.5, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/huehner.mp3' },
-  { type: 1, name: 'PRIME MEAT', emoji: '🥩', price: 1.5, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/schafe.mp3' },
-  { type: 2, name: 'RAW MILK', emoji: '🥛', price: 2.5, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/Rinder_muh.mp3' },
-  { type: 3, name: 'AGED CHEESE', emoji: '🧀', price: 4.5, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/ziege.mp3' },
-  { type: 4, name: 'CRISPY BACON', emoji: '🥓', price: 6.5, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/schwein.mp3' },
-  { type: 5, name: 'WILD HONEY', emoji: '🍯', price: 8.0, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/bienen.mp3' },
+  { type: 0, name: 'FRESH EGGS', emoji: '🥚', price: 0.1, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/huehner.mp3' },
+  { type: 1, name: 'PRIME MEAT', emoji: '🥩', price: 0.3, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/schafe.mp3' },
+  { type: 2, name: 'RAW MILK', emoji: '🥛', price: 0.5, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/Rinder_muh.mp3' },
+  { type: 3, name: 'AGED CHEESE', emoji: '🧀', price: 0.9, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/ziege.mp3' },
+  { type: 4, name: 'CRISPY BACON', emoji: '🥓', price: 1.3, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/schwein.mp3' },
+  { type: 5, name: 'WILD HONEY', emoji: '🍯', price: 1.6, sound: 'https://freeanimalsounds.org/wp-content/uploads/2017/07/bienen.mp3' },
 ];
 
 
