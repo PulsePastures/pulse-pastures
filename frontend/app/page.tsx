@@ -411,9 +411,6 @@ export default function FarmPage() {
       <div className="bg-[#fefce8] backdrop-blur-2xl border-b-2 border-[#4A2F1D] py-4 px-8 flex justify-between items-center text-[10px] uppercase tracking-[0.2em] text-gray-800 font-bold z-[100] sticky top-0 shadow-2xl">
         <div className="flex gap-10">
           <span className="flex items-center gap-2 text-[#2b1b10] border-l-2 border-[#4A2F1D] pl-4"><Pickaxe size={14} /> SLOTS: {Math.min(onChainCount + finalPendingArray.length, finalDisplayMax)} / {finalDisplayMax}</span>
-          {userAddress === ADMIN_WALLET && (
-            <span className="hidden md:flex items-center gap-2 text-green-700 border-l-2 border-[#4A2F1D] pl-4 uppercase tracking-[0.3em]"><Database size={11} className="mr-1" /> TREASURY LIQ: {Number(treasuryBalance?.formatted || 0).toFixed(2)} STT</span>
-          )}
         </div>
         <div className="flex gap-6 items-center">
           <button 
@@ -534,7 +531,10 @@ export default function FarmPage() {
                             <div className="bg-red-600 p-4 rounded-xl border-4 border-[#4A2F1D] shadow-[5px_5px_0_0_rgba(0,0,0,1)]"><ShieldAlert className="text-[#2b1b10]" size={40} /></div>
                             <div>
                                 <h3 className="text-[#2b1b10] font-black text-3xl italic tracking-tighter leading-none">ADMINISTRATOR HUD</h3>
-                                <p className="text-red-500 font-bold text-xs mt-2 tracking-widest uppercase opacity-80">Protocol Treasury Management Active</p>
+                                <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mt-3">
+                                  <span className="bg-red-900 text-white px-3 py-1 font-black uppercase tracking-widest text-xs border-2 border-[#4A2F1D] shadow-[2px_2px_0_0_rgba(0,0,0,1)] whitespace-nowrap"><Database size={12} className="inline mr-1" /> LIQ: {Number(treasuryBalance?.formatted || 0).toFixed(2)} STT</span>
+                                  <p className="text-red-500 font-bold text-xs tracking-widest uppercase opacity-80">Protocol Treasury Management Active</p>
+                                </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap justify-center gap-4">
