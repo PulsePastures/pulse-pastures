@@ -12,6 +12,8 @@ contract FarmEngine is Ownable {
         uint256 payout; // in wei
     }
 
+    mapping(FarmNFT.AnimalType => uint256) public animalPrices;
+    mapping(FarmNFT.AnimalType => uint256) public upgradePrices;
     mapping(FarmNFT.AnimalType => Product) public products;
     mapping(address => mapping(FarmNFT.AnimalType => uint256)) public userInventory;
     mapping(address => uint256[]) public userAnimalIds;
@@ -36,21 +38,47 @@ contract FarmEngine is Ownable {
         products[FarmNFT.AnimalType.GOAT] = Product("Cheese", 0.9 ether);
         products[FarmNFT.AnimalType.PIG] = Product("Bacon", 1.3 ether);
         products[FarmNFT.AnimalType.BEE] = Product("Honey", 1.6 ether);
+
+        animalPrices[FarmNFT.AnimalType.CHICKEN] = 1 ether;
+        animalPrices[FarmNFT.AnimalType.SHEEP] = 3 ether;
+        animalPrices[FarmNFT.AnimalType.COW] = 5 ether;
+        animalPrices[FarmNFT.AnimalType.GOAT] = 9 ether;
+        animalPrices[FarmNFT.AnimalType.PIG] = 13 ether;
+        animalPrices[FarmNFT.AnimalType.BEE] = 16 ether;
+
+        upgradePrices[FarmNFT.AnimalType.CHICKEN] = 0.2 ether;
+        upgradePrices[FarmNFT.AnimalType.SHEEP] = 0.6 ether;
+        upgradePrices[FarmNFT.AnimalType.COW] = 1 ether;
+        upgradePrices[FarmNFT.AnimalType.GOAT] = 1.8 ether;
+        upgradePrices[FarmNFT.AnimalType.PIG] = 2.6 ether;
+        upgradePrices[FarmNFT.AnimalType.BEE] = 3.2 ether;
+    }
+
+    function setAnimalPrice(FarmNFT.AnimalType _type, uint256 _price) external onlyOwner {
+        animalPrices[_type] = _price;
+    }
+
+    function setUpgradePrice(FarmNFT.AnimalType _type, uint256 _price) external onlyOwner {
+        upgradePrices[_type] = _price;
+    }
+
+    function setProductPayout(FarmNFT.AnimalType _type, uint256 _payout) external onlyOwner {
+        products[_type].payout = _payout;
     }
 
     function buyAnimal(FarmNFT.AnimalType _type) public payable {
         if (maxSlots[msg.sender] == 0) maxSlots[msg.sender] = 1; 
         require(usedSlots[msg.sender] < maxSlots[msg.sender], "Farm is full!");
 
-        uint256 price = 0;
+        uint256 price = animalPrices[_type];
         uint256 rate = 0;
 
-        if (_type == FarmNFT.AnimalType.CHICKEN) { price = 1 ether; rate = 3600; }
-        else if (_type == FarmNFT.AnimalType.SHEEP) { price = 3 ether; rate = 10800; }
-        else if (_type == FarmNFT.AnimalType.COW) { price = 5 ether; rate = 18000; }
-        else if (_type == FarmNFT.AnimalType.GOAT) { price = 9 ether; rate = 32400; }
-        else if (_type == FarmNFT.AnimalType.PIG) { price = 13 ether; rate = 46800; }
-        else if (_type == FarmNFT.AnimalType.BEE) { price = 16 ether; rate = 57600; }
+        if (_type == FarmNFT.AnimalType.CHICKEN) { rate = 3600; }
+        else if (_type == FarmNFT.AnimalType.SHEEP) { rate = 10800; }
+        else if (_type == FarmNFT.AnimalType.COW) { rate = 18000; }
+        else if (_type == FarmNFT.AnimalType.GOAT) { rate = 32400; }
+        else if (_type == FarmNFT.AnimalType.PIG) { rate = 46800; }
+        else if (_type == FarmNFT.AnimalType.BEE) { rate = 57600; }
 
         require(msg.value >= price, "Insufficient STT sent for this tier");
 
@@ -89,13 +117,7 @@ contract FarmEngine is Ownable {
         FarmNFT.Animal memory animal = farmNft.getAnimal(animalId);
         require(animal.level < 10, "Maximum level reached");
 
-        uint256 upgradePrice = 0;
-        if (animal.animalType == FarmNFT.AnimalType.CHICKEN) upgradePrice = 0.2 ether;
-        else if (animal.animalType == FarmNFT.AnimalType.SHEEP) upgradePrice = 0.6 ether;
-        else if (animal.animalType == FarmNFT.AnimalType.COW) upgradePrice = 1 ether;
-        else if (animal.animalType == FarmNFT.AnimalType.GOAT) upgradePrice = 1.8 ether;
-        else if (animal.animalType == FarmNFT.AnimalType.PIG) upgradePrice = 2.6 ether;
-        else if (animal.animalType == FarmNFT.AnimalType.BEE) upgradePrice = 3.2 ether;
+        uint256 upgradePrice = upgradePrices[animal.animalType];
 
         require(msg.value == upgradePrice, "Incorrect upgrade fee");
 
