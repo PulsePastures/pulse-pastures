@@ -463,7 +463,16 @@ export default function FarmPage() {
                     <div className="flex gap-3"><span className="text-green-700 font-black">2.</span> <span>Wait and <span className="text-green-700 underline underline-offset-2">COLLECT</span> yield produced over time.</span></div>
                     <div className="flex gap-3"><span className="text-green-700 font-black">3.</span> <span>Sell yield in the EXCHANGE to earn STT back!</span></div>
                     <div className="flex gap-3"><span className="text-green-700 font-black">4.</span> <span>Expand <span className="bg-yellow-200 px-1 border border-black">STABLES</span> capacity (max slots: 100).</span></div>
-                    <div className="flex gap-3 md:col-span-2 pt-4 border-t-2 border-[#4A2F1D]/20 mt-2"><span className="text-purple-700 font-black">PRO TIP:</span> <span>Upgrade animals (<span className="text-xl">UP ▲</span>) to increase their production significantly!</span></div>
+                    
+                    {/* PRO TIP CARD */}
+                    <div className="md:col-span-2 mt-4 pt-6 border-t-[3px] border-dashed border-[#4A2F1D]/30">
+                        <div className="bg-purple-200 border-4 border-[#4A2F1D] p-4 flex flex-col md:flex-row items-center md:items-start gap-4 shadow-[6px_6px_0_0_rgba(101,67,33,1)] hover:-translate-y-1 hover:shadow-[8px_8px_0_0_rgba(101,67,33,1)] transition-all">
+                            <div className="bg-purple-700 text-white px-3 py-1 font-black text-sm uppercase tracking-widest -skew-x-12 shadow-[3px_3px_0_0_rgba(0,0,0,1)] whitespace-nowrap">⚡ PRO TIP</div>
+                            <div className="font-black text-[#2b1b10] opacity-90 leading-snug uppercase tracking-widest text-xs text-center md:text-left mt-1 md:mt-0">
+                                Upgrade your animals using the <span className="inline-block bg-green-500 text-[#2b1b10] px-2 py-0.5 border-2 border-[#4A2F1D] mx-1 shadow-[2px_2px_0_0_rgba(0,0,0,1)]">UP ▲</span> button to drastically boost their yield rate!
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
