@@ -448,6 +448,26 @@ export default function FarmPage() {
 
       <div className="max-w-7xl mx-auto p-6 md:p-12 space-y-16 mt-12">
         
+        {/* HOW TO PLAY SECTION */}
+        <div className="bg-[#fefce8] border-8 border-dashed border-[#4A2F1D] p-8 shadow-[12px_12px_0_0_rgba(101,67,33,1)] relative overflow-hidden group">
+            <div className="absolute inset-0 bg-green-200/5 animate-pulse pointer-events-none" />
+            <div className="flex flex-col md:flex-row gap-8 relative z-10 items-center">
+                <div className="flex flex-col items-center justify-center border-b-4 md:border-b-0 md:border-r-4 border-[#4A2F1D] pb-6 md:pb-0 md:pr-10 w-full md:w-auto">
+                    <div className="bg-yellow-400 p-4 border-4 border-[#4A2F1D] shadow-[4px_4px_0_0_rgba(0,0,0,1)] -rotate-3 mb-4 group-hover:rotate-0 transition-transform">
+                        <Pickaxe size={40} className="text-[#2b1b10]" />
+                    </div>
+                    <div className="font-black italic text-3xl text-[#2b1b10] tracking-tighter text-center leading-none">HOW TO<br/>PLAY</div>
+                </div>
+                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm font-bold uppercase tracking-widest text-[#2b1b10] opacity-90">
+                    <div className="flex gap-3"><span className="text-green-700 font-black">1.</span> <span>Buy livestock from the <span className="bg-green-200 px-1 border border-black">EXCHANGE</span> using STT.</span></div>
+                    <div className="flex gap-3"><span className="text-green-700 font-black">2.</span> <span>Wait and <span className="text-green-700 underline underline-offset-2">COLLECT</span> yield produced over time.</span></div>
+                    <div className="flex gap-3"><span className="text-green-700 font-black">3.</span> <span>Sell yield in the EXCHANGE to earn STT back!</span></div>
+                    <div className="flex gap-3"><span className="text-green-700 font-black">4.</span> <span>Expand <span className="bg-yellow-200 px-1 border border-black">STABLES</span> capacity (max slots: 100).</span></div>
+                    <div className="flex gap-3 md:col-span-2 pt-4 border-t-2 border-[#4A2F1D]/20 mt-2"><span className="text-purple-700 font-black">PRO TIP:</span> <span>Upgrade animals (<span className="text-xl">UP ▲</span>) to increase their production significantly!</span></div>
+                </div>
+            </div>
+        </div>
+
         <div className="flex flex-col md:flex-row gap-10">
           <TabButton active={activeTab === 'farm'} onClick={() => setActiveTab('farm')} label="UNIT STABLES" icon={<LayoutGrid size={40} />} />
           <TabButton active={activeTab === 'market'} onClick={() => setActiveTab('market')} label="EXCHANGE" icon={<ArrowLeftRight size={40} />} />
