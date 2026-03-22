@@ -802,13 +802,13 @@ function StoreItem({ type, userAddress, onHover, onBuySuccess }: { type: number,
             onMouseEnter={onHover}
             onClick={handleBuy}
             disabled={disabled}
-            className={`flex flex-col items-center justify-center p-12 border-8 border-[#4A2F1D] shadow-[15px_15px_0_0_rgba(101,67,33,1)] hover:translate-x-4 hover:translate-y-4 hover:shadow-none transition-all group relative overflow-hidden h-[500px] w-full ${disabled ? 'bg-[#050505] opacity-60 grayscale cursor-not-allowed' : 'bg-[#fefce8] hover:bg-[#4A2F1D]'}`}
+            className={`flex flex-col items-center justify-center p-8 lg:p-12 border-8 border-[#4A2F1D] shadow-[15px_15px_0_0_rgba(101,67,33,1)] hover:translate-x-4 hover:translate-y-4 hover:shadow-none transition-all group relative overflow-hidden min-h-[500px] w-full ${disabled ? 'bg-[#050505] opacity-60 grayscale cursor-not-allowed' : 'bg-[#fefce8] hover:bg-[#4A2F1D]'}`}
         >
             {!isConnected && <div className="absolute inset-0 bg-[#4A2F1D]/40 z-20 backdrop-blur-[2px] flex items-center justify-center font-black text-xl uppercase italic tracking-widest text-[#2b1b10]/40">CONNECT TO BUY</div>}
             <div className="absolute top-8 right-8 bg-[#4A2F1D] text-green-700 font-mono text-sm px-4 py-1 border-2 border-cyan-900 shadow-xl opacity-20 group-hover:opacity-100 z-10 transition-opacity tracking-widest">{type} // TIER</div>
-            <div className="text-[13rem] mb-16 group-hover:scale-125 transition-transform duration-1000 group-hover:rotate-6 drop-shadow-[0_30px_60px_rgba(0,0,0,1)]">{meta.emoji}</div>
-            <div className="font-black text-5xl mb-10 italic tracking-tighter uppercase text-[#2b1b10] drop-shadow-2xl">{meta.name}</div>
-            <div className="bg-[#4A2F1D] border-[10px] border-double border-[#4A2F1D] px-16 py-6 font-black text-green-700 text-3xl tracking-[0.3em] shadow-inner font-mono italic flex items-center justify-center leading-none rounded-xl">
+            <div className="text-[11rem] mb-8 group-hover:scale-125 transition-transform duration-1000 group-hover:rotate-6 drop-shadow-[0_30px_60px_rgba(0,0,0,1)]">{meta.emoji}</div>
+            <div className="font-black text-4xl mb-8 italic tracking-tighter uppercase text-[#2b1b10] drop-shadow-2xl">{meta.name}</div>
+            <div className="bg-[#4A2F1D] border-[8px] border-double border-[#4A2F1D] px-12 py-5 w-full font-black text-green-700 text-3xl tracking-[0.2em] shadow-inner font-mono italic flex items-center justify-center leading-none rounded-xl">
                 {!isConnected ? 'LOCKED' : !hasEnough ? 'INSUFFICIENT' : `${meta.price} STT`}
             </div>
         </button>
