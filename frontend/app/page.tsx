@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { RefreshCw, Pickaxe, TrendingUp, BarChart3, AlertCircle, Loader2, ShoppingCart, Database, Save, Volume2, VolumeX, ShieldAlert, LayoutGrid, ArrowLeftRight } from 'lucide-react';
+import { RefreshCw, Pickaxe, TrendingUp, BarChart3, AlertCircle, Loader2, ShoppingCart, Database, Save, Volume2, VolumeX, ShieldAlert, LayoutGrid, ArrowLeftRight, Github } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract, useReadContracts, useBalance } from 'wagmi';
@@ -416,6 +416,16 @@ export default function FarmPage() {
           )}
         </div>
         <div className="flex gap-6 items-center">
+          {/* SOCIAL LINKS */}
+          <div className="flex gap-3 mr-4 border-r-2 border-[#4A2F1D] pr-6">
+            <a href="https://x.com/PulsePastures" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform text-[#2b1b10]" title="PulsePastures on X">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153ZM17.61 20.644h2.039L6.486 3.24H4.298l13.312 17.404Z" /></svg>
+            </a>
+            <a href="https://github.com/PulsePastures" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform text-[#2b1b10]" title="PulsePastures on GitHub">
+              <Github size={16} />
+            </a>
+          </div>
+
           <button 
             onClick={() => setIsMuted(!isMuted)} 
             className={`flex items-center gap-2 px-6 py-1 border-2 border-[#4A2F1D] transition-all ${isMuted ? 'bg-red-900 text-[#2b1b10] font-black' : 'bg-green-400 text-[#2b1b10] shadow-[4px_4px_0_0_rgba(0,0,0,1)] active:translate-y-2 active:shadow-none font-black'}`}
@@ -442,17 +452,6 @@ export default function FarmPage() {
           </div>
         </div>
         <div className="flex items-center gap-6 relative z-10">
-          <a 
-            href="https://x.com/PulsePastures" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            title="Follow us on X"
-            className="hidden md:flex p-4 bg-[#151515] border-4 border-[#4A2F1D] shadow-[6px_6px_0_0_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-pointer group rounded-xl"
-          >
-            <svg className="w-8 h-8 text-white group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153ZM17.61 20.644h2.039L6.486 3.24H4.298l13.312 17.404Z" />
-            </svg>
-          </a>
           <UserProfile address={userAddress} balance={sttBalance?.formatted} />
         </div>
       </header>
