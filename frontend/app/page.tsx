@@ -442,6 +442,17 @@ export default function FarmPage() {
           </div>
         </div>
         <div className="flex items-center gap-6 relative z-10">
+          <a 
+            href="https://x.com/PulsePastures" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            title="Follow us on X"
+            className="hidden md:flex p-4 bg-[#151515] border-4 border-[#4A2F1D] shadow-[6px_6px_0_0_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-pointer group rounded-xl"
+          >
+            <svg className="w-8 h-8 text-white group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153ZM17.61 20.644h2.039L6.486 3.24H4.298l13.312 17.404Z" />
+            </svg>
+          </a>
           <UserProfile address={userAddress} balance={sttBalance?.formatted} />
         </div>
       </header>
