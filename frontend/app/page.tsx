@@ -434,7 +434,7 @@ export default function FarmPage() {
                 className="flex items-center gap-3 px-5 py-2 bg-[#fefce8] text-[#2b1b10] border-2 border-[#4A2F1D] shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all text-xs font-black italic tracking-widest uppercase rounded-sm"
                 title="PulsePastures on GitHub"
             >
-              <Github size={16} className="text-[#2b1b10]" />
+              <Github size={20} className="text-[#2b1b10]" />
               <span>SOURCE CODE</span>
             </a>
           </div>
