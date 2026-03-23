@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity 0.8.30;
 
 import "./FarmNFT.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-contract FarmEngine is Ownable {
+import { ISomniaEventHandler } from "@somnia-chain/reactivity-contracts/contracts/interfaces/ISomniaEventHandler.sol";
+import { SomniaExtensions } from "@somnia-chain/reactivity-contracts/contracts/interfaces/ISomniaReactivityPrecompile.sol";
+
+contract FarmEngine is Ownable, ISomniaEventHandler {
     FarmNFT public farmNft;
     address public treasury = 0x17A4cFbF526A12324CE6300eD4862A78FE679676;
 
@@ -167,5 +170,29 @@ contract FarmEngine is Ownable {
     function withdrawAmount(uint256 _amount) public onlyOwner {
         require(address(this).balance >= _amount, "Insufficient balance");
         require(payable(msg.sender).send(_amount), "Withdrawal failed");
+    }
+
+    function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
+        return interfaceId == type(ISomniaEventHandler).interfaceId;
+    }
+
+    /**
+     * @dev Somnia Reactivity Handler. 
+     */
+    function onEvent(
+        address emitter,
+        bytes32[] calldata eventTopics,
+        bytes calldata data
+    ) external override {
+        require(msg.sender == SomniaExtensions.SOMNIA_REACTIVITY_PRECOMPILE_ADDRESS, "Only precompile");
+        _onEvent(emitter, eventTopics, data);
+    }
+
+    function _onEvent(
+        address emitter,
+        bytes32[] calldata eventTopics,
+        bytes calldata data
+    ) internal {
+        // PulsePastures Reactivity Logic
     }
 }

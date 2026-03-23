@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity 0.8.30;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import { ISomniaEventHandler } from "@somnia-chain/reactivity-contracts/contracts/interfaces/ISomniaEventHandler.sol";
+import { SomniaExtensions } from "@somnia-chain/reactivity-contracts/contracts/interfaces/ISomniaReactivityPrecompile.sol";
 
-contract FarmNFT is ERC721, Ownable {
+contract FarmNFT is ERC721, Ownable, ISomniaEventHandler {
     uint256 private _nextTokenId;
 
     enum AnimalType { CHICKEN, SHEEP, COW, GOAT, PIG, BEE }
@@ -49,5 +51,29 @@ contract FarmNFT is ERC721, Ownable {
         animals[tokenId].level += 1;
         // Reduce production time by 10% per level up to a point
         animals[tokenId].productionRate = (animals[tokenId].productionRate * 90) / 100;
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+        return ERC721.supportsInterface(interfaceId) || interfaceId == type(ISomniaEventHandler).interfaceId;
+    }
+
+    /**
+     * @dev Somnia Reactivity Handler. 
+     */
+    function onEvent(
+        address emitter,
+        bytes32[] calldata eventTopics,
+        bytes calldata data
+    ) external override {
+        require(msg.sender == SomniaExtensions.SOMNIA_REACTIVITY_PRECOMPILE_ADDRESS, "Only precompile");
+        _onEvent(emitter, eventTopics, data);
+    }
+
+    function _onEvent(
+        address emitter,
+        bytes32[] calldata eventTopics,
+        bytes calldata data
+    ) internal {
+        // PulsePastures Reactivity Logic
     }
 }
