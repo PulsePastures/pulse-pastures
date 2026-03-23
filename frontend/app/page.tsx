@@ -422,7 +422,7 @@ export default function FarmPage() {
                 href="https://x.com/PulsePastures" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center justify-center w-11 h-11 bg-[#121212] text-white border-2 border-[#4A2F1D] shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all rounded-sm flex-shrink-0"
+                className="flex items-center justify-center w-44 h-11 bg-[#121212] text-white border-2 border-[#4A2F1D] shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all rounded-sm flex-shrink-0"
                 title="PulsePastures on X"
             >
               <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153ZM17.61 20.644h2.039L6.486 3.24H4.298l13.312 17.404Z" /></svg>
@@ -431,11 +431,11 @@ export default function FarmPage() {
                 href="https://github.com/PulsePastures" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center gap-3 px-5 h-11 bg-[#fefce8] text-[#2b1b10] border-2 border-[#4A2F1D] shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all text-xs font-black italic tracking-widest uppercase rounded-sm whitespace-nowrap"
+                className="flex items-center justify-center gap-3 w-44 h-11 bg-[#fefce8] text-[#2b1b10] border-2 border-[#4A2F1D] shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all text-[10px] font-black italic tracking-widest uppercase rounded-sm flex-shrink-0"
                 title="PulsePastures on GitHub"
             >
               <Github size={24} className="text-[#2b1b10]" />
-              <span>SOURCE CODE</span>
+              <span className="whitespace-nowrap">SOURCE CODE</span>
             </a>
           </div>
 
