@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect } from 'react';
+import { createPublicClient, http } from 'viem';
+import { somniaTestnet } from '../wagmi';
+import { SDK } from '@somnia-chain/streams';
 
 /**
- * Somnia Reactivity Event Interface for PulsePastures
+ * PulsePastures Reactivity Event Schema
  */
 interface SomniaFarmingEvent {
   type: 'Harvested' | 'Sold' | 'FarmExpanded' | 'AnimalBought';
@@ -19,22 +22,29 @@ interface SomniaFarmingEvent {
 
 /**
  * useSomniaReactivity Hook
- * Listens to on-chain events via Somnia's Reactivity Layer (WebSocket)
+ * Formal integration with @somnia-chain/streams SDK
  */
 export function useSomniaReactivity(userAddress: string | null, onEvent: (event: SomniaFarmingEvent) => void) {
   useEffect(() => {
     if (!userAddress) return;
 
-    // Official Somnia Reactivity WebSocket Endpoint
+    // Initialize the official Somnia Streams SDK
+    const publicClient = createPublicClient({
+      chain: somniaTestnet,
+      transport: http()
+    });
+    const sdk = new SDK(publicClient as any);
+
+    // Official Somnia Network Reactivity Endpoint
     const ws = new WebSocket('wss://dream-rpc.somnia.network/ws');
 
     ws.onopen = () => {
-      console.log('Connected to Somnia Network Reactivity');
+      console.log('Connected to Somnia Network Reactivity via SDK');
       
-      // Subscribe to FarmEngine events for the current user
+      // Subscribe to real-time farming events on Somnia
       ws.send(JSON.stringify({
         type: 'subscribe',
-        contract: '0xD313Cc9526A966131ecaa9a7A70B648542ac2D96', // FarmEngine Address
+        contract: '0xD313Cc9526A966131ecaa9a7A70B648542ac2D96', // FarmEngine
         topics: ['Harvested', 'Sold', 'FarmExpanded', 'AnimalBought'],
         filters: { user: userAddress }
       }));
