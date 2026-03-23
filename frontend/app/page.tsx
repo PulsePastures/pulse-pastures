@@ -417,24 +417,24 @@ export default function FarmPage() {
         </div>
         <div className="flex gap-6 items-center">
           {/* SOCIAL LINKS */}
-          <div className="flex gap-5 mr-6 border-r-2 border-[#4A2F1D] pr-8">
+          <div className="flex gap-4 mr-6 border-r-2 border-[#4A2F1D] pr-8 items-center h-full">
             <a 
                 href="https://x.com/PulsePastures" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center justify-center p-3.5 bg-[#121212] text-white border-2 border-[#4A2F1D] shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all rounded-sm"
+                className="flex items-center justify-center w-11 h-11 bg-[#121212] text-white border-2 border-[#4A2F1D] shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all rounded-sm flex-shrink-0"
                 title="PulsePastures on X"
             >
-              <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153ZM17.61 20.644h2.039L6.486 3.24H4.298l13.312 17.404Z" /></svg>
+              <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153ZM17.61 20.644h2.039L6.486 3.24H4.298l13.312 17.404Z" /></svg>
             </a>
             <a 
                 href="https://github.com/PulsePastures" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center gap-3 px-5 py-2 bg-[#fefce8] text-[#2b1b10] border-2 border-[#4A2F1D] shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all text-xs font-black italic tracking-widest uppercase rounded-sm"
+                className="flex items-center gap-3 px-5 h-11 bg-[#fefce8] text-[#2b1b10] border-2 border-[#4A2F1D] shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all text-xs font-black italic tracking-widest uppercase rounded-sm whitespace-nowrap"
                 title="PulsePastures on GitHub"
             >
-              <Github size={20} className="text-[#2b1b10]" />
+              <Github size={24} className="text-[#2b1b10]" />
               <span>SOURCE CODE</span>
             </a>
           </div>
