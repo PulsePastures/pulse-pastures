@@ -417,12 +417,26 @@ export default function FarmPage() {
         </div>
         <div className="flex gap-6 items-center">
           {/* SOCIAL LINKS */}
-          <div className="flex gap-3 mr-4 border-r-2 border-[#4A2F1D] pr-6">
-            <a href="https://x.com/PulsePastures" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform text-[#2b1b10]" title="PulsePastures on X">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153ZM17.61 20.644h2.039L6.486 3.24H4.298l13.312 17.404Z" /></svg>
+          <div className="flex gap-4 mr-4 border-r-2 border-[#4A2F1D] pr-6">
+            <a 
+                href="https://x.com/PulsePastures" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 px-3 py-1 bg-[#121212] text-white border-2 border-[#4A2F1D] shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all text-[8px] font-black italic tracking-widest uppercase rounded-sm"
+                title="PulsePastures on X"
+            >
+              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153ZM17.61 20.644h2.039L6.486 3.24H4.298l13.312 17.404Z" /></svg>
+              <span>X FEED</span>
             </a>
-            <a href="https://github.com/PulsePastures" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform text-[#2b1b10]" title="PulsePastures on GitHub">
-              <Github size={16} />
+            <a 
+                href="https://github.com/PulsePastures" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 px-3 py-1 bg-[#fefce8] text-[#2b1b10] border-2 border-[#4A2F1D] shadow-[3px_3px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all text-[8px] font-black italic tracking-widest uppercase rounded-sm"
+                title="PulsePastures on GitHub"
+            >
+              <Github size={12} className="text-[#2b1b10]" />
+              <span>SOURCE CODE</span>
             </a>
           </div>
 
