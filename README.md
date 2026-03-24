@@ -44,8 +44,8 @@ For detailed technical implementation, see **[SOMNIA_REACTIVITY.md](file:///User
 
 | Contract | Address |
 | :--- | :--- |
-| **FarmEngine** | `0xD313Cc9526A966131ecaa9a7A70B648542ac2D96` |
-| **FarmNFT** | `0x9f6f2157b00B006268e68536AC5D8C7B7398f8C9` |
+| **FarmEngine** | `0x016338acec43720e4444e3c86340ac83567ef7e8` |
+| **FarmNFT** | `0x1f748BdeB3361235B92B36C7B6340B067CB48BDE` |
 
 ---
 
