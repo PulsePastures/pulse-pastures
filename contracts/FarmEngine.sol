@@ -3,18 +3,12 @@ pragma solidity 0.8.30;
 
 import "./FarmNFT.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import { ISomniaEventHandler } from "@somnia-chain/reactivity-contracts/contracts/interfaces/ISomniaEventHandler.sol";
-import { ISomniaReactivityPrecompile, SomniaExtensions } from "@somnia-chain/reactivity-contracts/contracts/interfaces/ISomniaReactivityPrecompile.sol";
 
-contract FarmEngine is Ownable, ISomniaEventHandler {
+contract FarmEngine is Ownable {
     FarmNFT public farmNft;
-    address public treasury = 0x17A4cFbF526A12324CE6300eD4862A78FE679676;
-
-    struct Product {
-        string name;
-        uint256 payout; // in wei
-    }
-
+    uint256 public subscriptionId;
+    
+    struct Product { string name; uint256 payout; }
     mapping(FarmNFT.AnimalType => uint256) public animalPrices;
     mapping(FarmNFT.AnimalType => uint256) public upgradePrices;
     mapping(FarmNFT.AnimalType => Product) public products;
@@ -23,22 +17,12 @@ contract FarmEngine is Ownable, ISomniaEventHandler {
 
     event Harvested(address indexed user, uint256 animalId, FarmNFT.AnimalType animalType, uint256 amount);
     event Sold(address indexed user, FarmNFT.AnimalType animalType, uint256 amount, uint256 totalPrice);
-
-    mapping(address => uint256) public maxSlots;
-    mapping(address => uint256) public usedSlots;
-
-    event FarmExpanded(address indexed user, uint256 newMaxSlots);
     event AnimalBought(address indexed user, FarmNFT.AnimalType animalType, uint256 tokenId);
-
-    uint256 public subscriptionId;
-    ISomniaReactivityPrecompile private constant PRECOMPILE = ISomniaReactivityPrecompile(SomniaExtensions.SOMNIA_REACTIVITY_PRECOMPILE_ADDRESS);
-
-    uint256 public totalAnimalsCount;
+    event ReactivityTriggered(address indexed emitter);
 
     constructor(address _farmNft) Ownable() {
         farmNft = FarmNFT(_farmNft);
-
-        // Protocol v2.0 ROI Payouts (0.5 - 8.0 STT) - REDUCED BY 80%
+        
         products[FarmNFT.AnimalType.CHICKEN] = Product("Egg", 0.1 ether);
         products[FarmNFT.AnimalType.SHEEP] = Product("Meat", 0.3 ether);
         products[FarmNFT.AnimalType.COW] = Product("Milk", 0.5 ether);
@@ -52,181 +36,58 @@ contract FarmEngine is Ownable, ISomniaEventHandler {
         animalPrices[FarmNFT.AnimalType.GOAT] = 9 ether;
         animalPrices[FarmNFT.AnimalType.PIG] = 13 ether;
         animalPrices[FarmNFT.AnimalType.BEE] = 16 ether;
-
-        upgradePrices[FarmNFT.AnimalType.CHICKEN] = 0.2 ether;
-        upgradePrices[FarmNFT.AnimalType.SHEEP] = 0.6 ether;
-        upgradePrices[FarmNFT.AnimalType.COW] = 1 ether;
-        upgradePrices[FarmNFT.AnimalType.GOAT] = 1.8 ether;
-        upgradePrices[FarmNFT.AnimalType.PIG] = 2.6 ether;
-        upgradePrices[FarmNFT.AnimalType.BEE] = 3.2 ether;
-    }
-
-    function setAnimalPrice(FarmNFT.AnimalType _type, uint256 _price) external onlyOwner {
-        animalPrices[_type] = _price;
-    }
-
-    function setUpgradePrice(FarmNFT.AnimalType _type, uint256 _price) external onlyOwner {
-        upgradePrices[_type] = _price;
-    }
-
-    function setProductPayout(FarmNFT.AnimalType _type, uint256 _payout) external onlyOwner {
-        products[_type].payout = _payout;
     }
 
     function buyAnimal(FarmNFT.AnimalType _type) public payable {
-        if (maxSlots[msg.sender] == 0) maxSlots[msg.sender] = 1; 
-        require(usedSlots[msg.sender] < maxSlots[msg.sender], "Farm is full!");
-
-        uint256 price = animalPrices[_type];
-        uint256 rate = 0;
-
-        if (_type == FarmNFT.AnimalType.CHICKEN) { rate = 3600; }
-        else if (_type == FarmNFT.AnimalType.SHEEP) { rate = 10800; }
-        else if (_type == FarmNFT.AnimalType.COW) { rate = 18000; }
-        else if (_type == FarmNFT.AnimalType.GOAT) { rate = 32400; }
-        else if (_type == FarmNFT.AnimalType.PIG) { rate = 46800; }
-        else if (_type == FarmNFT.AnimalType.BEE) { rate = 57600; }
-
-        require(msg.value >= price, "Insufficient STT sent for this tier");
-
-        uint256 tokenId = farmNft.mintAnimal(msg.sender, _type, rate);
+        require(msg.value >= animalPrices[_type], "Low STT");
+        uint256 tokenId = farmNft.mintAnimal(msg.sender, _type, 3600);
         userAnimalIds[msg.sender].push(tokenId);
-        
-        usedSlots[msg.sender]++;
-        totalAnimalsCount++;
-
         emit AnimalBought(msg.sender, _type, tokenId);
-    }
-
-    function expandFarm() public payable {
-        if (maxSlots[msg.sender] == 0) maxSlots[msg.sender] = 1;
-        require(maxSlots[msg.sender] < 100, "Maximum of 100 slots reached");
-        require(msg.value == 100 ether, "Expansion cost is 100 STT");
-        
-        maxSlots[msg.sender] += 1;
-        emit FarmExpanded(msg.sender, maxSlots[msg.sender]);
     }
 
     function harvest(uint256 animalId) public {
         require(farmNft.ownerOf(animalId) == msg.sender, "Not yours");
         FarmNFT.Animal memory animal = farmNft.getAnimal(animalId);
-        uint256 timePassed = block.timestamp - animal.lastHarvest;
-        uint256 amount = timePassed / animal.productionRate;
-        if (amount > 10) amount = 10; // Capped at 10 products
-        require(amount > 0, "Nothing to harvest yet");
-
+        uint256 amount = (block.timestamp - animal.lastHarvest) / animal.productionRate;
+        if (amount > 10) amount = 10;
+        require(amount > 0, "Wait");
         userInventory[msg.sender][animal.animalType] += amount;
         farmNft.updateLastHarvest(animalId);
         emit Harvested(msg.sender, animalId, animal.animalType, amount);
     }
 
-    function levelUpAnimal(uint256 animalId) public payable {
-        require(farmNft.ownerOf(animalId) == msg.sender, "Not yours");
-        
-        FarmNFT.Animal memory animal = farmNft.getAnimal(animalId);
-        require(animal.level < 10, "Maximum level reached");
-
-        uint256 upgradePrice = upgradePrices[animal.animalType];
-
-        require(msg.value == upgradePrice, "Incorrect upgrade fee");
-
-        // Force harvest
-        uint256 timePassed = block.timestamp - animal.lastHarvest;
-        uint256 amount = timePassed / animal.productionRate;
-        if (amount > 10) amount = 10;
-        
-        if (amount > 0) {
-            userInventory[msg.sender][animal.animalType] += amount;
-            farmNft.updateLastHarvest(animalId);
-            emit Harvested(msg.sender, animalId, animal.animalType, amount);
-        }
-
-        farmNft.upgradeAnimal(animalId);
-    }
-
     function sellProduct(FarmNFT.AnimalType _type, uint256 _amount) public {
-        require(userInventory[msg.sender][_type] >= _amount, "Insufficient products");
-        
-        uint256 payoutRate = products[_type].payout;
-        uint256 totalPayout = payoutRate * _amount;
-        
-        require(address(this).balance >= totalPayout, "Insufficient treasury liquidity");
-
+        require(userInventory[msg.sender][_type] >= _amount, "Low stock");
+        uint256 totalPayout = products[_type].payout * _amount;
+        require(address(this).balance >= totalPayout, "Low treasury");
         userInventory[msg.sender][_type] -= _amount;
         payable(msg.sender).transfer(totalPayout);
-        
         emit Sold(msg.sender, _type, _amount, totalPayout);
     }
 
-    function getUserAnimals(address user) external view returns (uint256[] memory) {
-        return userAnimalIds[user];
+    function createSubscription() external onlyOwner {
+        require(subscriptionId == 0, "Wait");
+        bytes memory payload = abi.encodeWithSignature(
+            "subscribe((bytes32[4],address,address,address,address,bytes4,uint64,uint64,uint64,bool,bool))",
+            [bytes32(0), bytes32(0), bytes32(0), bytes32(0)],
+            address(0), address(0), address(this), address(this),
+            this.onEvent.selector,
+            uint64(50000000000), uint64(100000000000), uint64(500000),
+            true, false
+        );
+        (bool success, bytes memory result) = address(0x0100).call(payload);
+        require(success, "Sub failed");
+        subscriptionId = abi.decode(result, (uint256));
     }
 
-    function setTreasury(address _newTreasury) public onlyOwner {
-        treasury = _newTreasury;
-    }
-
-    receive() external payable {}
-
-    function withdrawSTT() public onlyOwner {
-        uint256 balance = address(this).balance;
-        require(payable(msg.sender).send(balance), "Withdrawal failed");
-    }
-
-    function withdrawAmount(uint256 _amount) public onlyOwner {
-        require(address(this).balance >= _amount, "Insufficient balance");
-        require(payable(msg.sender).send(_amount), "Withdrawal failed");
+    function onEvent(address emitter, bytes32[] calldata, bytes calldata) external {
+        require(msg.sender == address(0x0100), "0x0100 only");
+        emit ReactivityTriggered(emitter);
     }
 
     function supportsInterface(bytes4 interfaceId) public pure returns (bool) {
-        return interfaceId == type(ISomniaEventHandler).interfaceId;
+        return interfaceId == 0x16346399 || interfaceId == 0x01ffc9a7;
     }
 
-    /**
-     * @notice Creates a filtered subscription for this contract's events.
-     * @dev The owner must hold >= 32 STT.
-     */
-    function createSubscription() external onlyOwner {
-        require(subscriptionId == 0, "Already subscribed");
-
-        ISomniaReactivityPrecompile.SubscriptionData memory subData =
-            ISomniaReactivityPrecompile.SubscriptionData({
-                eventTopics: [bytes32(0), bytes32(0), bytes32(0), bytes32(0)],
-                origin: address(0),
-                caller: address(0),
-                emitter: address(this),
-                handlerContractAddress: address(this),
-                handlerFunctionSelector: this.onEvent.selector,
-                priorityFeePerGas: 2_000_000_000,  // 2 gwei
-                maxFeePerGas: 10_000_000_000,       // 10 gwei
-                gasLimit: 500_000,
-                isGuaranteed: true,
-                isCoalesced: false
-            });
-
-        subscriptionId = PRECOMPILE.subscribe(subData);
-    }
-
-    function cancelSubscription() external onlyOwner {
-        require(subscriptionId != 0, "Not subscribed");
-        PRECOMPILE.unsubscribe(subscriptionId);
-        subscriptionId = 0;
-    }
-
-    function onEvent(
-        address emitter,
-        bytes32[] calldata eventTopics,
-        bytes calldata data
-    ) external override {
-        require(msg.sender == SomniaExtensions.SOMNIA_REACTIVITY_PRECOMPILE_ADDRESS, "Only precompile");
-        _onEvent(emitter, eventTopics, data);
-    }
-
-    function _onEvent(
-        address emitter,
-        bytes32[] calldata eventTopics,
-        bytes calldata data
-    ) internal {
-        // PulsePastures Reactivity Logic
-    }
+    receive() external payable {}
 }
