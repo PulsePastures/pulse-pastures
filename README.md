@@ -27,8 +27,19 @@ A secure, wallet-locked management console for the project operator:
 - **Blockchain**: Somnia Network (Testnet)
 - **Frontend**: Next.js, Framer Motion, Tailwind CSS
 - **Web3 Layer**: Wagmi, Viem, RainbowKit
-- **Smart Contracts**: Solidity v0.8.19 (Hardhat)
+- **Smart Contracts**: Solidity v0.8.30 (Hardhat)
+- **Reactivity SDK**: `@somnia-chain/reactivity` (Native Push Notifications)
 
+---
+
+## 📡 Somnia Reactivity (Advanced)
+
+PulsePastures utilizes Somnia's native reactivity for real-time state synchronization. Our implementation includes:
+- **Atomic State Bundling**: Using `ethCalls` to fetch envanter and slot data alongside events in a single block.
+- **Push-based Sync**: Eliminates RPC polling, reducing latency and infrastructure costs.
+- **Optimization**: `onlyPushChanges` used to minimize frontend updates.
+
+For detailed technical implementation, see **[SOMNIA_REACTIVITY.md](file:///Users/kerimakay/.gemini/antigravity/scratch/somnia-pet-arena/SOMNIA_REACTIVITY.md)**.
 ## 📡 Protocol Addresses
 
 | Contract | Address |

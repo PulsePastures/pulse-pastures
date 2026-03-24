@@ -53,13 +53,10 @@ contract FarmNFT is ERC721, Ownable, ISomniaEventHandler {
         animals[tokenId].productionRate = (animals[tokenId].productionRate * 90) / 100;
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
-        return ERC721.supportsInterface(interfaceId) || interfaceId == type(ISomniaEventHandler).interfaceId;
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721) returns (bool) {
+        return interfaceId == type(ISomniaEventHandler).interfaceId || super.supportsInterface(interfaceId);
     }
 
-    /**
-     * @dev Somnia Reactivity Handler. 
-     */
     function onEvent(
         address emitter,
         bytes32[] calldata eventTopics,

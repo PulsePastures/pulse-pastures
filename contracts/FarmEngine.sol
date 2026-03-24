@@ -4,7 +4,7 @@ pragma solidity 0.8.30;
 import "./FarmNFT.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import { ISomniaEventHandler } from "@somnia-chain/reactivity-contracts/contracts/interfaces/ISomniaEventHandler.sol";
-import { SomniaExtensions } from "@somnia-chain/reactivity-contracts/contracts/interfaces/ISomniaReactivityPrecompile.sol";
+import { ISomniaReactivityPrecompile, SomniaExtensions } from "@somnia-chain/reactivity-contracts/contracts/interfaces/ISomniaReactivityPrecompile.sol";
 
 contract FarmEngine is Ownable, ISomniaEventHandler {
     FarmNFT public farmNft;
@@ -28,6 +28,10 @@ contract FarmEngine is Ownable, ISomniaEventHandler {
     mapping(address => uint256) public usedSlots;
 
     event FarmExpanded(address indexed user, uint256 newMaxSlots);
+    event AnimalBought(address indexed user, FarmNFT.AnimalType animalType, uint256 tokenId);
+
+    uint256 public subscriptionId;
+    ISomniaReactivityPrecompile private constant PRECOMPILE = ISomniaReactivityPrecompile(SomniaExtensions.SOMNIA_REACTIVITY_PRECOMPILE_ADDRESS);
 
     uint256 public totalAnimalsCount;
 
@@ -90,6 +94,8 @@ contract FarmEngine is Ownable, ISomniaEventHandler {
         
         usedSlots[msg.sender]++;
         totalAnimalsCount++;
+
+        emit AnimalBought(msg.sender, _type, tokenId);
     }
 
     function expandFarm() public payable {
@@ -172,13 +178,41 @@ contract FarmEngine is Ownable, ISomniaEventHandler {
         require(payable(msg.sender).send(_amount), "Withdrawal failed");
     }
 
-    function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public pure returns (bool) {
         return interfaceId == type(ISomniaEventHandler).interfaceId;
     }
 
     /**
-     * @dev Somnia Reactivity Handler. 
+     * @notice Creates a filtered subscription for this contract's events.
+     * @dev The owner must hold >= 32 STT.
      */
+    function createSubscription() external onlyOwner {
+        require(subscriptionId == 0, "Already subscribed");
+
+        ISomniaReactivityPrecompile.SubscriptionData memory subData =
+            ISomniaReactivityPrecompile.SubscriptionData({
+                eventTopics: [bytes32(0), bytes32(0), bytes32(0), bytes32(0)],
+                origin: address(0),
+                caller: address(0),
+                emitter: address(this),
+                handlerContractAddress: address(this),
+                handlerFunctionSelector: this.onEvent.selector,
+                priorityFeePerGas: 2_000_000_000,  // 2 gwei
+                maxFeePerGas: 10_000_000_000,       // 10 gwei
+                gasLimit: 500_000,
+                isGuaranteed: true,
+                isCoalesced: false
+            });
+
+        subscriptionId = PRECOMPILE.subscribe(subData);
+    }
+
+    function cancelSubscription() external onlyOwner {
+        require(subscriptionId != 0, "Not subscribed");
+        PRECOMPILE.unsubscribe(subscriptionId);
+        subscriptionId = 0;
+    }
+
     function onEvent(
         address emitter,
         bytes32[] calldata eventTopics,
