@@ -6,10 +6,11 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract, useReadContracts, useBalance } from 'wagmi';
 import { parseEther } from 'viem';
+import { useSomniaReactivity } from '../lib/hooks/useSomniaReactivity';
 
 // --- CONTRACT ADDRESSES ---
-const FARM_ENGINE_ADDRESS = '0x98F4C21281Bc268d439A667C8A07b94FF9f999e9'; 
-const FARM_NFT_ADDRESS = '0xb2496D2B2aD41538dfed5F8636D5b9a75eB41BFe';
+const FARM_ENGINE_ADDRESS = '0x016338acec43720e4444e3c86340ac83567ef7e8'; 
+const FARM_NFT_ADDRESS = '0x1f748BdeB3361235B92B36C7B6340B067CB48BDE';
 const STT_ADDRESS = '0x8544465B620436dF3029D8eB7330335AeB1f787E';
 
 // --- ABIs ---
@@ -23,8 +24,8 @@ const FARM_ENGINE_ABI = [
   { name: 'getUserAnimals', type: 'function', stateMutability: 'view', inputs: [{ name: 'user', type: 'address' }], outputs: [{ type: 'uint256[]' }] },
   { name: 'maxSlots', type: 'function', stateMutability: 'view', inputs: [{ name: 'user', type: 'address' }], outputs: [{ type: 'uint256' }] },
   { name: 'userInventory', type: 'function', stateMutability: 'view', inputs: [{ name: 'user', type: 'address' }, { name: 'animalType', type: 'uint8' }], outputs: [{ type: 'uint256' }] },
-  { name: 'withdrawSTT', type: 'function', stateMutability: 'nonpayable', inputs: [], outputs: [] },
   { name: 'withdrawAmount', type: 'function', stateMutability: 'nonpayable', inputs: [{ name: '_amount', type: 'uint256' }], outputs: [] },
+  { name: 'withdrawSTT', type: 'function', stateMutability: 'nonpayable', inputs: [], outputs: [] },
   { name: 'owner', type: 'function', stateMutability: 'view', inputs: [], outputs: [{ type: 'address' }] },
 ] as const;
 
@@ -400,6 +401,17 @@ export default function FarmPage() {
     }
   }, [isWriteError, isTxError]);
 
+  useSomniaReactivity(userAddress as string, (event: any) => {
+    console.log("🌊 SOMNIA PUSH EVENT:", event);
+    refetchAll();
+    
+    // Visual feedback on push
+    if (event.type === 'Harvested' || event.type === 'AnimalBought') {
+       playSFX('harvest'); // Use available SFX
+       addFloatingText(`${event.type.toUpperCase()}!`, window.innerWidth/2, window.innerHeight/2);
+    }
+  });
+
   // Derived values for the UI that include in-flight optimistic operations
   const finalDisplayMax = optimisticMax > 0 ? optimisticMax : displayMax;
   const finalPendingArray = optimisticPending ? [...localPending, optimisticPending] : localPending;
@@ -412,7 +424,7 @@ export default function FarmPage() {
         <div className="flex gap-10">
           <span className="flex items-center gap-2 text-[#2b1b10] border-l-2 border-[#4A2F1D] pl-4"><Pickaxe size={14} /> SLOTS: {Math.min(onChainCount + finalPendingArray.length, finalDisplayMax)} / {finalDisplayMax}</span>
           {userAddress === ADMIN_WALLET && (
-            <span className="hidden md:flex items-center gap-2 text-green-700 border-l-2 border-[#4A2F1D] pl-4 uppercase tracking-[0.3em]"><Database size={11} className="mr-1" /> TREASURY: {Number(treasuryBalance?.formatted || 0).toFixed(2)} STT (0xc06f17DED41B859Ad0C2eED82795b5D0A2a83563)</span>
+            <span className="hidden md:flex items-center gap-2 text-green-700 border-l-2 border-[#4A2F1D] pl-4 uppercase tracking-[0.3em]"><Database size={11} className="mr-1" /> TREASURY: {Number(treasuryBalance?.formatted || 0).toFixed(2)} STT ({FARM_ENGINE_ADDRESS})</span>
           )}
         </div>
         <div className="flex gap-6 items-center">
