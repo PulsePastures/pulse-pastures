@@ -6,8 +6,8 @@ import Providers from "@/components/Providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "PulsePastures: High-Fidelity Cyber-Farming",
-  description: "Real-time AI Pet Battles and Production on Base Testnet",
+  title: "PulsePastures",
+  description: "Real-time AI Pet Battles and Production on Base Network",
 };
 
 export default function RootLayout({
