@@ -422,19 +422,23 @@ function AdminHUD({ contractPrices, treasuryBalance, writeContract, userAddress,
 
             const animalP = [0,1,2,3,4,5].map(i => {
                 const el = document.getElementById(`set-0-${i}`) as HTMLInputElement;
-                return parseEther(el?.value || "0.01");
+                const val = el?.value || "0.01";
+                return parseEther(val);
             });
             const yieldR = [0,1,2,3,4,5].map(i => {
                 const el = document.getElementById(`set-1-${i}`) as HTMLInputElement;
-                return BigInt(Math.floor(Number(el?.value || 1)));
+                const val = Number(el?.value || 1);
+                return BigInt(isNaN(val) ? 1 : Math.floor(val));
             });
             const upBase = [0,1,2,3,4,5].map(i => {
                 const el = document.getElementById(`set-2-${i}`) as HTMLInputElement;
-                return parseEther(el?.value || "0.01");
+                const val = el?.value || "0.01";
+                return parseEther(val);
             });
             const prodP = [0,1,2,3,4,5].map(i => {
                 const el = document.getElementById(`set-3-${i}`) as HTMLInputElement;
-                return parseEther(el?.value || "0.001");
+                const val = el?.value || "0.001";
+                return parseEther(val);
             });
             
             writeContract({
@@ -522,7 +526,7 @@ function AdminHUD({ contractPrices, treasuryBalance, writeContract, userAddress,
                                     <input 
                                         id={`set-${col}-${idx}`} 
                                         className="flex-1 min-w-0 bg-transparent text-[10px] font-bold outline-none" 
-                                        defaultValue={col === 0 ? formatEther(getPrice(idx, contractPrices, 1)) : col === 1 ? Number(contractPrices?.[Number(idx) + 7]?.result || 1) : col === 2 ? formatEther(getPrice(idx, contractPrices, 13)) : formatEther((contractPrices?.[19 + Number(idx)]?.result as any)?.[1] || parseEther('0.001'))} 
+                                        defaultValue={col === 0 ? formatEther(getGlobalPrice(idx, contractPrices, 1)) : col === 1 ? Number(contractPrices?.[Number(idx) + 7]?.result || 1) : col === 2 ? formatEther(getGlobalPrice(idx, contractPrices, 13)) : formatEther((contractPrices?.[19 + Number(idx)]?.result as any)?.[1] || parseEther('0.001'))} 
                                     />
                                     <button 
                                         onClick={() => handleIndividualSync(col, Number(idx), (document.getElementById(`set-${col}-${idx}`) as HTMLInputElement).value)}
@@ -539,7 +543,7 @@ function AdminHUD({ contractPrices, treasuryBalance, writeContract, userAddress,
     );
 }
 
-function getPrice(idx: string, data: any, offset: number) {
+function getGlobalPrice(idx: string, data: any, offset: number) {
     return data?.[Number(idx) + offset]?.result || parseEther('0.01');
 }
 
