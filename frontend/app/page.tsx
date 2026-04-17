@@ -552,7 +552,11 @@ function AnimalSlot({ tokenId, allowance, contractPrices, onHover }: any) {
     if (!animalData || !contractPrices) return;
     const type = Number(animalData.animalType !== undefined ? animalData.animalType : animalData[0]);
     const itv = setInterval(() => {
-        const last = Number(animalData.lastHarvest || animalData[2]) * 1000;
+        const rawLastHarvest = Number(animalData.lastHarvest !== undefined ? animalData.lastHarvest : animalData[2]);
+        const birthTime = Number(animalData.birthTime !== undefined ? animalData.birthTime : animalData[1]);
+        // if never harvested (lastHarvest=0), start counting from birthTime
+        const startSec = rawLastHarvest === 0 ? birthTime : rawLastHarvest;
+        const last = startSec * 1000;
         const lvl = Number(animalData.level || animalData[3] || 1);
         const rate = Number(contractPrices?.[7 + type]?.result || 1);
         const ms = (86400 / rate / lvl) * 1000;
