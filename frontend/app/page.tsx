@@ -80,6 +80,19 @@ interface StoredState {
     pendingAnimals: StoredAnimal[];
 }
 
+interface Animal {
+    animalType: number;
+    birthTime: bigint;
+    lastHarvest: bigint;
+    level: bigint;
+}
+
+interface ContractResult {
+    status: 'success' | 'failure';
+    result?: any;
+    error?: Error;
+}
+
 // Custom hook for audio
 const useAudio = (isMuted: boolean) => {
     const playSFX = useCallback((src: string) => {
@@ -555,14 +568,13 @@ function AnimalSlot({ tokenId, allowance, contractPrices, onHover }: any) {
   
   useEffect(() => {
     if (!animalData || !contractPrices) return;
-    const type = Number(animalData.animalType !== undefined ? animalData.animalType : animalData[0]);
+    const type = Number(animalData.animalType ?? animalData[0]);
     const itv = setInterval(() => {
-        const rawLastHarvest = Number(animalData.lastHarvest !== undefined ? animalData.lastHarvest : animalData[2]);
-        const birthTime = Number(animalData.birthTime !== undefined ? animalData.birthTime : animalData[1]);
-        // if never harvested (lastHarvest=0), start counting from birthTime
+        const rawLastHarvest = Number(animalData.lastHarvest ?? animalData[2]);
+        const birthTime = Number(animalData.birthTime ?? animalData[1]);
         const startSec = rawLastHarvest === 0 ? birthTime : rawLastHarvest;
         const last = startSec * 1000;
-        const lvl = Number(animalData.level || animalData[3] || 1);
+        const lvl = Number(animalData.level ?? animalData[3] ?? 1);
         const rate = Number(contractPrices?.[7 + type]?.result || 1);
         const ms = (86400 / rate / lvl) * 1000;
         const total = Math.floor((Date.now() - last) / ms);
