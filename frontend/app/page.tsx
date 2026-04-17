@@ -49,6 +49,8 @@ const FARM_NFT_ABI = [
   { name: 'balanceOf', type: 'function', stateMutability: 'view', inputs: [{ name: 'owner', type: 'address' }], outputs: [{ type: 'uint256' }] },
 ] as const;
 
+const DAILY_MAX_PRODUCTS = 10;
+
 const ANIMAL_META: Record<number, { emoji: string; name: string; yield: string; prod: string; price: number; time: string; upgradePrice: number }> = {
   0: { emoji: "🐔", name: "CHICKEN", yield: "LOW", prod: "EGGS", price: 0.01, time: "DAILY", upgradePrice: 0.01 },
   1: { emoji: "🐑", name: "SHEEP", yield: "MEDIUM", prod: "MEAT", price: 0.01, time: "DAILY", upgradePrice: 0.01 },
@@ -555,7 +557,7 @@ function AnimalSlot({ tokenId, allowance, contractPrices, onHover }: any) {
         const rate = Number(contractPrices?.[7 + type]?.result || 1);
         const ms = (86400 / rate / lvl) * 1000;
         const total = Math.floor((Date.now() - last) / ms);
-        setReadyAmount(total > 30 * lvl * rate ? 30 * lvl * rate : total);
+        setReadyAmount(Math.min(total, DAILY_MAX_PRODUCTS));
     }, 1000);
     return () => clearInterval(itv);
   }, [animalData, contractPrices]);
