@@ -1,10 +1,10 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { RefreshCw, Pickaxe, TrendingUp, BarChart3, AlertCircle, Loader2, ShoppingCart, Database, Save, Volume2, VolumeX, ShieldAlert, LayoutGrid, ArrowLeftRight, Github, User, BadgeCheck } from 'lucide-react';
+import { Pickaxe, LayoutGrid, ArrowLeftRight, Github, User, BadgeCheck } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract, useReadContracts, useBalance } from 'wagmi';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract, useReadContracts } from 'wagmi';
 import { parseEther, maxUint256, formatEther } from 'viem';
 
 // --- CONTRACT ADDRESSES ---
