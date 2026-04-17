@@ -42,6 +42,7 @@ const FARM_ENGINE_ABI = [
   { name: 'depositVirtual', type: 'function', stateMutability: 'nonpayable', inputs: [{ name: 'amount', type: 'uint256' }], outputs: [] },
   { name: 'owner', type: 'function', stateMutability: 'view', inputs: [], outputs: [{ type: 'address' }] },
   { name: 'getAnimal', type: 'function', stateMutability: 'view', inputs: [{ name: 'tokenId', type: 'uint256' }], outputs: [{ type: 'tuple', components: [{ name: 'animalType', type: 'uint8' }, { name: 'birthTime', type: 'uint256' }, { name: 'lastHarvest', type: 'uint256' }, { name: 'level', type: 'uint256' }] }] },
+  { name: 'products', type: 'function', stateMutability: 'view', inputs: [{ name: '', type: 'uint8' }], outputs: [{ name: 'name', type: 'string' }, { name: 'price', type: 'uint256' }] },
 ] as const;
 
 const FARM_NFT_ABI = [
