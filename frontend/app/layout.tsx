@@ -8,6 +8,11 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "PulsePastures",
   description: "Real-time AI Pet Battles and Production on Base Network",
+  verification: {
+    other: {
+      "virtual-protocol-site-verification": "eb3f25557f71a8ca3fbf3937007d99af",
+    },
+  },
 };
 
 export default function RootLayout({
