@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "PulsePastures",
-  description: "Real-time AI Pet Battles and Production on Base Network",
-  verification: {
-    other: {
-      "virtual-protocol-site-verification": "eb3f25557f71a8ca3fbf3937007d99af",
-    },
-  },
+  title: "PulsePastures Buyback",
+  description: "Official PulsePastures Buyback Tracker",
 };
 
 export default function RootLayout({
@@ -22,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="light">
-      <body className={`${inter.className} bg-background text-foreground antialiased`}>
+      <body className="bg-background text-foreground antialiased font-sans">
         <Providers>{children}</Providers>
       </body>
     </html>
