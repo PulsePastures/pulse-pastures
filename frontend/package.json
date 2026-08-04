@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build && node -e \"const fs=require('fs'); if (!fs.existsSync('.next/build-manifest.json')) fs.writeFileSync('.next/build-manifest.json', JSON.stringify({pages:{}})); fs.mkdirSync('.next/server', {recursive:true}); if (!fs.existsSync('.next/server/pages-manifest.json')) fs.writeFileSync('.next/server/pages-manifest.json', JSON.stringify({}));\"",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
