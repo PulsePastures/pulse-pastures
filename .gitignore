@@ -29,3 +29,5 @@ yarn-error.log*
 
 # Legacy/Archive
 # legacy/ (Keep in repo if you want to see old files)
+.vercel
+.env*
